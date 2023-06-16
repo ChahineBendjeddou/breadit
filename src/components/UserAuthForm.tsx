@@ -1,10 +1,10 @@
 'use client'
-import { cn } from '@/lib/utils'
-import { FC, HTMLAttributes, useState } from 'react'
-import { Button } from './ui/Button'
-import { signIn } from 'next-auth/react'
-import { Icons } from './Icons'
 import { useToast } from '@/hooks/use-toast'
+import { cn } from '@/lib/utils'
+import { signIn } from 'next-auth/react'
+import { FC, HTMLAttributes, useState } from 'react'
+import { Icons } from './Icons'
+import { Button } from './ui/Button'
 interface UserAuthFormProps extends HTMLAttributes<HTMLDivElement> {}
 
 const UserAuthForm: FC<UserAuthFormProps> = ({ className, ...props }) => {
