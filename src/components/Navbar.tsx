@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Icons } from './Icons'
+import { buttonVariants } from './ui/Button'
 
 export default function Navbar() {
   return (
@@ -10,6 +11,10 @@ export default function Navbar() {
           <p className="hidden text-sm font-medium text-zinc-700 md:block">
             Breadit
           </p>
+        </Link>
+
+        <Link href="/sign-in" className={buttonVariants()}>
+          Sign In
         </Link>
       </div>
     </nav>
