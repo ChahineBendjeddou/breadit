@@ -1,3 +1,4 @@
+import Navbar from '@/components/Navbar'
 import { cn } from '@/lib/utils'
 import '@/styles/globals.css'
 import { Inter } from 'next/font/google'
@@ -20,6 +21,7 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-screen pt-12 antialiased bg-slate-50">
+        <Navbar />
         <div className="container h-full pt-12 mx-auto max-w-7xl ">
           {children}
         </div>
