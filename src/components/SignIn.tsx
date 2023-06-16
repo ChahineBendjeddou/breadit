@@ -17,7 +17,7 @@ const SignIn: FC = () => {
         <p className="px-8 text-sm text-center text-zinc-700">
           New to Breadit?{' '}
           <Link
-            href="/sing-up"
+            href="/sign-up"
             className="text-sm underline underline-offset-4 hover:text-zinc-800"
           >
             Sign Up
