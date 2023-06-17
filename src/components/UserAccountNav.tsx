@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from './ui/DropDownMenu'
+} from './ui/DropdownMenu'
 
 interface UserAccountNavProps {
   user: Pick<User, 'name' | 'image' | 'email'>
