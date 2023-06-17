@@ -20,7 +20,7 @@ const SubscribeLeaveToggle: FC<SubscribeLeaveToggleProps> = ({
   const isSubscribed = false
   const { loginToast } = useCustonToadt()
   const router = useRouter()
-  const { mutate: subscribe, isLoading } = useMutation({
+  const { mutate: subscribe, isLoading: isSubLoading } = useMutation({
     mutationFn: async () => {
       const payload: SubscribeToSubredditPayload = {
         subredditId,
@@ -50,7 +50,7 @@ const SubscribeLeaveToggle: FC<SubscribeLeaveToggleProps> = ({
   ) : (
     <Button
       className="w-full mt-1 mb-4"
-      isLoading={isLoading}
+      isLoading={isSubLoading}
       onClick={() => subscribe()}
     >
       Join to post
