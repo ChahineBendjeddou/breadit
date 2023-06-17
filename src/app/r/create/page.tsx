@@ -48,8 +48,8 @@ const page: FC = () => {
     },
   })
   return (
-    <div className="container flex items-center justify-center h-full max-w-3xl">
-      <div className="relative p-4 space-y-6 bg-white rounded-lg h-fit">
+    <div className="container flex items-center h-full max-w-3xl mx-auto">
+      <div className="relative w-full p-4 space-y-6 bg-white rounded-lg h-fit">
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-semibold">Create a community</h1>
         </div>
