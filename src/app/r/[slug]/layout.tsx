@@ -82,6 +82,7 @@ const layout = async ({ children, params: { slug } }: layoutProps) => {
                 <SubscribeLeaveToggle
                   subredditId={subreddit.id}
                   subredditName={subreddit.name}
+                  isSubscribed={isSubscribed}
                 />
               ) : null}
             </dl>

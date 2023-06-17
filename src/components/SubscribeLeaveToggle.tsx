@@ -11,13 +11,14 @@ import { useRouter } from 'next/navigation'
 interface SubscribeLeaveToggleProps {
   subredditId: string
   subredditName: string
+  isSubscribed: boolean
 }
 
 const SubscribeLeaveToggle: FC<SubscribeLeaveToggleProps> = ({
   subredditId,
   subredditName,
+  isSubscribed,
 }) => {
-  const isSubscribed = false
   const { loginToast } = useCustonToadt()
   const router = useRouter()
   const { mutate: subscribe, isLoading: isSubLoading } = useMutation({
