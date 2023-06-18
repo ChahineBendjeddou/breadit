@@ -1,3 +1,5 @@
+import Editor from '@/components/Editor'
+import { Button } from '@/components/ui/Button'
 import { db } from '@/lib/db'
 import { notFound } from 'next/navigation'
 
@@ -25,6 +27,12 @@ const page = async ({ params: { slug } }: pageProps) => {
             in r/{slug}
           </p>
         </div>
+      </div>
+      <Editor subredditId={subreddit.id} />
+      <div className="flex justify-end w-full">
+        <Button type="submit" className="w-full" form="subreddit-post-form">
+          Post
+        </Button>
       </div>
     </div>
   )
