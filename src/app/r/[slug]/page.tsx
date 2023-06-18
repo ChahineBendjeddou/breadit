@@ -1,4 +1,5 @@
 import MiniCreatePost from '@/components/MiniCreatePost'
+import PostFeed from '@/components/PostFeed'
 import { INFINIT_SCROLLING_PAGINATION_RESULTS } from '@/config'
 import { getAuthSession } from '@/lib/auth'
 import { db } from '@/lib/db'
@@ -34,6 +35,11 @@ const page = async ({ params }: PageProps) => {
         r/{subreddit.name}
       </h1>
       <MiniCreatePost session={session} />
+      <PostFeed
+        /* @ts-ignore */
+        initialPosts={subreddit.posts.reverse()}
+        subredditName={subreddit.name}
+      />
     </>
   )
 }
