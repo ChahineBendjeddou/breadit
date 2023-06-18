@@ -25,6 +25,7 @@ const page = async ({ params }: PageProps) => {
           subreddit: true,
         },
         take: INFINIT_SCROLLING_PAGINATION_RESULTS,
+        orderBy: { createdAt: 'desc' },
       },
     },
   })
@@ -37,7 +38,7 @@ const page = async ({ params }: PageProps) => {
       <MiniCreatePost session={session} />
       <PostFeed
         /* @ts-ignore */
-        initialPosts={subreddit.posts.reverse()}
+        initialPosts={subreddit.posts}
         subredditName={subreddit.name}
       />
     </>
