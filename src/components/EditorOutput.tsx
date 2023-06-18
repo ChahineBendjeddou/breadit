@@ -17,7 +17,7 @@ const style = {
 
 const renderers = {
   image: CustomImageRenderer,
-  //   code: CustomCodeRenderer,
+  code: CustomCodeRenderer,
 }
 const EditorOutput: FC<EditorOutputProps> = ({ content }) => {
   return (
@@ -37,5 +37,11 @@ function CustomImageRenderer({ data }: any) {
     </div>
   )
 }
-function CustomCodeRenderer({ data }: any) {}
+function CustomCodeRenderer({ data }: any) {
+  return (
+    <pre className="p-4 bg-gray-800 rounded-md">
+      <code className="text-sm text-gray-100">{data.code}</code>
+    </pre>
+  )
+}
 export default EditorOutput
