@@ -3,7 +3,9 @@ import { Post, User, Vote } from '@prisma/client'
 import { MessageSquare } from 'lucide-react'
 import { FC, useRef } from 'react'
 import EditorOutput from './EditorOutput'
+import PostVoteClient from './post-vote/PostVoteClient'
 
+type PartialVote = Pick<Vote, 'type'>
 interface PostProps {
   subredditName: string
   post: Post & {
@@ -11,14 +13,28 @@ interface PostProps {
     votes: Vote[]
   }
   commentAmt: number
+  votesAmt: number
+  currentVote?: PartialVote
 }
 
-const Post: FC<PostProps> = ({ subredditName, post, commentAmt }) => {
+const Post: FC<PostProps> = ({
+  subredditName,
+  post,
+  commentAmt,
+  votesAmt,
+  currentVote,
+}) => {
   const pRef = useRef<HTMLDivElement>(null)
   return (
     <div className="bg-white rounded-md shadow">
       <div className="flex justify-between px-6 py-4">
-        {/* TODO : PostVotes */}
+        <div className="hidden pb-4 sm:flex">
+          <PostVoteClient
+            initialVotesAmt={votesAmt}
+            postId={post.id}
+            initialVote={currentVote?.type}
+          />
+        </div>
 
         <div className="flex-1 w-0">
           <div className="mt-1 text-xs text-gray-500 max-h-40">
@@ -34,8 +50,10 @@ const Post: FC<PostProps> = ({ subredditName, post, commentAmt }) => {
               </>
             ) : null}
             <span>
-              Posted by u/{post.author.name}{' '}
-              <span>{formatTimeToNow(post.createdAt)}</span>
+              Posted by u/{post.author.name}
+              <span className="ml-1">
+                {formatTimeToNow(new Date(post.createdAt))}
+              </span>
             </span>
           </div>
           <a href={`/r/${subredditName}/post/${post.id}`}>
@@ -54,7 +72,14 @@ const Post: FC<PostProps> = ({ subredditName, post, commentAmt }) => {
           </div>
         </div>
       </div>
-      <div className="z-20 p-4 px-4 text-sm bg-gray-50 sm:px-6">
+      <div className="z-20 flex p-4 px-4 text-sm bg-gray-50 sm:px-6">
+        <div className="mr-2 sm:hidden">
+          <PostVoteClient
+            postId={post.id}
+            initialVotesAmt={votesAmt}
+            initialVote={currentVote?.type}
+          />
+        </div>
         <a
           href={`/r/${subredditName}/post/${post.id}`}
           className="flex items-center gap-2 w-fit"
