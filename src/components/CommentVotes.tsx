@@ -77,7 +77,7 @@ const CommentVotes: FC<CommentVotesProps> = ({
           })}
         />
       </Button>
-      <p className="py-2 text-sm font-medium text-center sm:py-0 text-zinc-900">
+      <p className="py-2 text-sm font-medium text-center text-zinc-900">
         {votesAmt}
       </p>
       <Button
