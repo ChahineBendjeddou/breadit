@@ -50,7 +50,7 @@ const Post: FC<PostProps> = ({
               </>
             ) : null}
             <span>
-              Posted by u/{post.author.name}
+              Posted by u/{post.author.username}
               <span className="ml-1">
                 {formatTimeToNow(new Date(post.createdAt))}
               </span>
