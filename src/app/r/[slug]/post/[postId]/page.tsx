@@ -67,7 +67,6 @@ const page = async ({ params: { postId } }: pageProps) => {
               <Loader2 className="w-5 h-5 animate-spin text-zinc-500" />
             }
           >
-            <Loader2 className="w-5 h-5 animate-spin text-zinc-500" />
             {/* @ts-ignore */}
             <CommentsSection postId={post?.id ?? cachedPost.id} />
           </Suspense>
