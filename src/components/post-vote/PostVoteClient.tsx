@@ -68,7 +68,7 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
     setCurrentVote(initialVote)
   }, [initialVote])
   return (
-    <div className="flex flex-row w-20 pr-6 sm:flex-col ">
+    <div className="flex flex-row w-20 pr-6 sm:flex-col">
       <Button
         size="sm"
         variant="ghost"
@@ -81,7 +81,7 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
           })}
         />
       </Button>
-      <p className="py-2 text-sm font-medium text-center text-zinc-900">
+      <p className="py-2 text-sm font-medium text-center sm:py-0 text-zinc-900">
         {votesAmt}
       </p>
       <Button
