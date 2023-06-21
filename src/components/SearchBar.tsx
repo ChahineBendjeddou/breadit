@@ -1,5 +1,5 @@
 'use client'
-import { FC, useCallback, useState } from 'react'
+import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import {
   Command,
   CommandEmpty,
@@ -11,15 +11,18 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { Prisma, Subreddit } from '@prisma/client'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { Users } from 'lucide-react'
 import debounce from 'lodash.debounce'
+import { useOnClickOutside } from '@/hooks/use-on-click-outside'
 
 interface SearchBarProps {}
 
 const SearchBar: FC<SearchBarProps> = ({}) => {
   const [input, setInput] = useState<string>('')
   const router = useRouter()
+  const commandRef = useRef<HTMLDivElement>(null)
+  const pathname = usePathname()
 
   const {
     data: queryResults,
@@ -45,8 +48,19 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
   const debounceRequest = useCallback(() => {
     request()
   }, [request])
+
+  useOnClickOutside(commandRef, () => {
+    setInput('')
+  })
+
+  useEffect(() => {
+    setInput('')
+  }, [pathname])
   return (
-    <Command className="relative max-w-lg overflow-visible border rounded-lg">
+    <Command
+      ref={commandRef}
+      className="relative max-w-lg overflow-visible border rounded-lg"
+    >
       <CommandInput
         className="border-none outline-none focus:border-none focus:outline-none ring-0"
         placeholder="Search communities..."
