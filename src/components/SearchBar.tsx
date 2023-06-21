@@ -85,7 +85,7 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
                   value={subreddit.name}
                 >
                   <Users className="w-4 h-4 mr-2" />
-                  <a href={`/r/${subreddit.name}`}>r/${subreddit.name}</a>
+                  <a href={`/r/${subreddit.name}`}>r/{subreddit.name}</a>
                 </CommandItem>
               ))}
             </CommandGroup>
