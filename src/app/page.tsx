@@ -22,7 +22,7 @@ export default async function Home() {
 
         {/* subreddit info */}
 
-        <div className="order-first overflow-hidden border border-gray-200 rounded-lg h-fit md:order-last">
+        <div className="order-first overflow-hidden border border-gray-200 rounded-lg md:col-start-3 md:row-start-1 h-fit md:order-last">
           <div className="px-6 py-4 bg-emerald-100">
             <p className="font-semibold py-3 flex items-center gap-1.5">
               <HomeIcon className="w-4 h-4" /> Home
