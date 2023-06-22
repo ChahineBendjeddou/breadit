@@ -90,7 +90,7 @@ const PostComment: FC<PostCommentProps> = ({
           variant="ghost"
           size="xs"
           onClick={() => {
-            if (!session) return router.push('/login')
+            if (!session) return router.push('/sign-in')
             setIsReplying(true)
           }}
         >
