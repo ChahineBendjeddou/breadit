@@ -16,7 +16,7 @@ const page: FC = () => {
   const { mutate: createCommunity, isLoading } = useMutation({
     mutationFn: async () => {
       const payload: CreateSubredditPayload = {
-        name: input,
+        name: input.trim(),
       }
       const { data } = await axios.post('/api/subreddit', { payload })
       return data as string
