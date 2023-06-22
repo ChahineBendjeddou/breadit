@@ -6,7 +6,8 @@ import '@/styles/globals.css'
 import { Inter } from 'next/font/google'
 export const metadata = {
   title: 'Breadit',
-  description: 'A Reddit clone built with Next.js and TypeScript.',
+  description:
+    'A Reddit clone made by Chahine Bendjeddou with Next.js and Typescript.',
 }
 const inter = Inter({ subsets: ['latin'] })
 export default function RootLayout({
