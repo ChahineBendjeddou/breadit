@@ -30,6 +30,9 @@ const page = async ({ params }: PageProps) => {
     },
   })
   if (!subreddit) return notFound()
+  const totalPosts = await db.post.count({
+    where: { subredditId: subreddit.id },
+  })
   return (
     <>
       <h1 className="text-3xl font-bold md:text-4xl h-14">
@@ -40,6 +43,7 @@ const page = async ({ params }: PageProps) => {
         /* @ts-ignore */
         initialPosts={subreddit.posts}
         subredditName={subreddit.name}
+        totalPosts={totalPosts}
       />
     </>
   )
