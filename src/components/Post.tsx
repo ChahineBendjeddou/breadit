@@ -3,7 +3,9 @@ import { Post, User, Vote } from '@prisma/client'
 import { MessageSquare } from 'lucide-react'
 import { FC, useRef } from 'react'
 import EditorOutput from './EditorOutput'
+import MenuBar from './MenuBar'
 import PostVoteClient from './post-vote/PostVoteClient'
+import { getAuthSession } from '@/lib/auth'
 
 type PartialVote = Pick<Vote, 'type'>
 interface PostProps {
@@ -26,7 +28,7 @@ const Post: FC<PostProps> = ({
 }) => {
   const pRef = useRef<HTMLDivElement>(null)
   return (
-    <div className="bg-white rounded-md shadow">
+    <div className="relative bg-white rounded-md shadow">
       <div className="flex justify-between px-6 py-4">
         <div className="hidden pb-4 sm:flex">
           <PostVoteClient
@@ -37,7 +39,7 @@ const Post: FC<PostProps> = ({
         </div>
 
         <div className="flex-1 w-0">
-          <div className="mt-1 text-xs text-gray-500 max-h-40">
+          <div className="max-w-[250px] sm:max-w-max mt-1 text-xs text-gray-500 max-h-40  ">
             {subredditName ? (
               <>
                 <a
@@ -49,13 +51,16 @@ const Post: FC<PostProps> = ({
                 <span className="px-1">•</span>
               </>
             ) : null}
-            <span>
+            <span className="truncate">
               Posted by u/{post.author.username}
               <span className="ml-1">
                 {formatTimeToNow(new Date(post.createdAt))}
               </span>
             </span>
           </div>
+          <span className="absolute top-4 right-5">
+            <MenuBar authorId={post.authorId} postId={post.id} />
+          </span>
           <a href={`/r/${subredditName}/post/${post.id}`}>
             <h1 className="py-2 text-lg font-semibold leading-6 text-gray-600">
               {post.title}

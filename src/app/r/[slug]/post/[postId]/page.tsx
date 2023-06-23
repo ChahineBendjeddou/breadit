@@ -1,5 +1,6 @@
 import CommentsSection from '@/components/CommentsSection'
 import EditorOutput from '@/components/EditorOutput'
+import MenuBar from '@/components/MenuBar'
 import PostVoteServer from '@/components/post-vote/PostVoteServer'
 import { buttonVariants } from '@/components/ui/Button'
 import { db } from '@/lib/db'
@@ -53,7 +54,7 @@ const page = async ({ params: { postId } }: pageProps) => {
             }}
           />
         </Suspense>
-        <div className="flex-1 w-full p-4 bg-white rounded-sm sm:w-0">
+        <div className="relative flex-1 w-full p-4 bg-white rounded-sm sm:w-0">
           <p className="mt-1 text-xs text-gray-500 truncate max-h-40">
             Posted by u/{post?.author.username ?? cachedPost.authorUsername}{' '}
             {formatTimeToNow(new Date(post?.createdAt ?? cachedPost.createdAt))}
@@ -61,6 +62,12 @@ const page = async ({ params: { postId } }: pageProps) => {
           <h1 className="py-2 text-xl font-semibold leading-6 text-gray-900">
             {post?.title ?? cachedPost.title}
           </h1>
+          <span className="absolute top-4 right-5">
+            <MenuBar
+              authorId={post?.authorId || cachedPost.authorId}
+              postId={postId}
+            />
+          </span>
           <EditorOutput content={post?.content ?? cachedPost.content} />
           <Suspense
             fallback={
