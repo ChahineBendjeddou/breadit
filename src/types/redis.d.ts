@@ -7,4 +7,5 @@ export type CachedPost = {
   content: string
   currentVote: VoteType | null
   createdAt: Date
+  authorId: string
 }
