@@ -17,7 +17,9 @@ export default async function Home() {
       <div className="grid grid-cols-1 py-6 md:grid-cols-3 gap-y-4 md:gap-x-4">
         <Suspense fallback={<FeedSkeleton />}>
           {/* @ts-ignore */}
-          {session ? <CustomFeed /> : <GeneralFeed />}
+          {/* {session ? <CustomFeed /> : <GeneralFeed />} */}
+          {/* @ts-ignore */}
+          <GeneralFeed />
         </Suspense>
 
         {/* subreddit info */}
