@@ -15,8 +15,9 @@ const GeneralFeed = async () => {
     },
     take: INFINIT_SCROLLING_PAGINATION_RESULTS,
   })
+  const totalPosts = await db.post.count()
   //@ts-ignore
-  return <PostFeed initialPosts={posts} />
+  return <PostFeed initialPosts={posts} totalPosts={totalPosts} />
 }
 
 export default GeneralFeed

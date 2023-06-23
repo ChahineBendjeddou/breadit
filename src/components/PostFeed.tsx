@@ -1,18 +1,24 @@
 'use client'
+import { INFINIT_SCROLLING_PAGINATION_RESULTS } from '@/config'
 import { ExtendedPost } from '@/types/db'
-import { FC, useEffect, useRef } from 'react'
 import { useIntersection } from '@mantine/hooks'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { INFINIT_SCROLLING_PAGINATION_RESULTS } from '@/config'
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
+import { FC, useEffect, useRef } from 'react'
 import Post from './Post'
+import FeedSkeleton from './FeedSkeleton'
 interface PostFeedProps {
   initialPosts: ExtendedPost[]
   subredditName?: string
+  totalPosts: number
 }
 
-const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
+const PostFeed: FC<PostFeedProps> = ({
+  initialPosts,
+  subredditName,
+  totalPosts,
+}) => {
   const lastPostRef = useRef<HTMLElement>(null)
   const { ref, entry } = useIntersection({
     root: lastPostRef.current,
@@ -20,11 +26,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
   })
 
   const { data: session } = useSession()
-  //   const session = {
-  //     user: {
-  //       id: '1',
-  //     },
-  //   }
+
   const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     ['infinite-query'],
     async ({ pageParam = 1 }) => {
@@ -41,11 +43,12 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
       initialData: { pages: [initialPosts], pageParams: [1] },
     }
   )
+  const posts = data?.pages.flatMap((page) => page) ?? initialPosts
+  const canFetchNextPage = posts.length !== totalPosts && !isFetchingNextPage
 
   useEffect(() => {
-    if (entry?.isIntersecting) fetchNextPage()
-  }, [entry, fetchNextPage])
-  const posts = data?.pages.flatMap((page) => page) ?? initialPosts
+    if (entry?.isIntersecting && canFetchNextPage) fetchNextPage()
+  }, [entry, fetchNextPage, canFetchNextPage])
 
   return (
     <ul className="flex flex-col col-span-2 mt-5 space-y-6">
@@ -82,6 +85,10 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
           </li>
         )
       })}
+      {canFetchNextPage && <FeedSkeleton />}
+      {posts.length === totalPosts && (
+        <p className="text-sm text-center text-gray-500">No more posts</p>
+      )}
     </ul>
   )
 }
