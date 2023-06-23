@@ -35,6 +35,7 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
           variant="ghost"
           onClick={() => router.push(pathname + '/submit')}
           placeholder="Create post"
+          className="hidden sm:block"
         >
           <ImageIcon className="text-zinc-600" />
         </Button>
@@ -42,6 +43,7 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
           variant="ghost"
           onClick={() => router.push(pathname + '/submit')}
           placeholder="Create post"
+          className="hidden sm:block"
         >
           <Link2 className="text-zinc-600" />
         </Button>
