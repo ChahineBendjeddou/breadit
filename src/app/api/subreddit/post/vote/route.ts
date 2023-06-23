@@ -109,6 +109,7 @@ async function cachePost({ votesAmt, post, voteType }: cachePostType) {
       content: JSON.stringify(post.content),
       currentVote: voteType,
       createdAt: post.createdAt,
+      authorId: post.author.id,
     }
     await redis.hset(`post:${post.id}`, cachePayload)
   }
