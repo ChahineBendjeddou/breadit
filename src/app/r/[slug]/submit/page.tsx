@@ -8,13 +8,12 @@ interface pageProps {
     slug: string
   }
 }
-const page = async ({ params: { slug } }: pageProps) => {
+const Page = async ({ params: { slug } }: pageProps) => {
   const subreddit = await db.subreddit.findFirst({
     where: {
       name: slug,
     },
   })
-
   if (!subreddit) return notFound()
   return (
     <div className="flex flex-col items-start gap-6">
@@ -29,13 +28,8 @@ const page = async ({ params: { slug } }: pageProps) => {
         </div>
       </div>
       <Editor subredditId={subreddit.id} />
-      <div className="flex justify-end w-full">
-        <Button type="submit" className="w-full" form="subreddit-post-form">
-          Post
-        </Button>
-      </div>
     </div>
   )
 }
 
-export default page
+export default Page

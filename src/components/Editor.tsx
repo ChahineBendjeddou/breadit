@@ -11,6 +11,7 @@ import { useMutation } from '@tanstack/react-query'
 import axios, { AxiosError } from 'axios'
 import { usePathname, useRouter } from 'next/navigation'
 import { useCustomToast } from '@/hooks/use-custom-toast'
+import { Button } from './ui/Button'
 interface EditorProps {
   subredditId: string
 }
@@ -123,7 +124,7 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
     }
   }, [isMounted, initialzeEditor])
 
-  const { mutate: createPost } = useMutation({
+  const { mutate: createPost, isLoading } = useMutation({
     mutationFn: async ({
       title,
       content,
@@ -156,6 +157,7 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
       })
     },
   })
+
   async function onSubmit(data: PostCreationRequest) {
     const blocks = await ref.current?.save()
     const payload: PostCreationRequest = {
@@ -168,27 +170,39 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
   if (!isMounted) return null
   const { ref: titleRef, ...rest } = register('title')
   return (
-    <div className="w-full p-4 border rounded-lg bg-zinc-50 border-zinc-200">
-      <form
-        id="subreddit-post-form"
-        className="w-fit"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div className="prose prose-stone dark:prose-invert">
-          <TextareaAutosize
-            placeholder="Title"
-            ref={(e) => {
-              titleRef(e)
-              // @ts-ignore
-              _titleRef.current = e
-            }}
-            {...rest}
-            className="w-full overflow-hidden text-5xl font-bold bg-transparent appearance-none resize-none focus:outline-none"
-          />
-          <div id="editor" className="min-h-[500px]" />
-        </div>
-      </form>
-    </div>
+    <>
+      <div className="w-full p-4 border rounded-lg bg-zinc-50 border-zinc-200">
+        <form
+          id="subreddit-post-form"
+          className="w-fit"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div className="prose prose-stone dark:prose-invert">
+            <TextareaAutosize
+              placeholder="Title"
+              ref={(e) => {
+                titleRef(e)
+                // @ts-ignore
+                _titleRef.current = e
+              }}
+              {...rest}
+              className="w-full overflow-hidden text-5xl font-bold bg-transparent appearance-none resize-none focus:outline-none"
+            />
+            <div id="editor" className="min-h-[500px]" />
+          </div>
+        </form>
+      </div>
+      <div className="flex justify-end w-full">
+        <Button
+          type="submit"
+          className="w-full"
+          form="subreddit-post-form"
+          isLoading={isLoading}
+        >
+          Post
+        </Button>
+      </div>
+    </>
   )
 }
 
