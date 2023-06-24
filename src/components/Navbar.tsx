@@ -1,9 +1,9 @@
 import { getAuthSession } from '@/lib/auth'
 import Link from 'next/link'
 import { Icons } from './Icons'
+import SearchBar from './SearchBar'
 import UserAccountNav from './UserAccountNav'
 import { buttonVariants } from './ui/Button'
-import SearchBar from './SearchBar'
 
 export default async function Navbar() {
   const session = await getAuthSession()
@@ -20,7 +20,12 @@ export default async function Navbar() {
         {session?.user ? (
           <UserAccountNav user={session.user} />
         ) : (
-          <Link href="/sign-in" className={buttonVariants()}>
+          <Link
+            href="/sign-in"
+            className={buttonVariants({
+              className: 'truncate',
+            })}
+          >
             Sign In
           </Link>
         )}
