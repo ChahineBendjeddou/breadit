@@ -1,5 +1,6 @@
 import { getAuthSession } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { redis } from '@/lib/redis'
 import { z } from 'zod'
 
 export async function DELETE(req: Request) {
@@ -50,6 +51,7 @@ export async function DELETE(req: Request) {
         id: postId,
       },
     })
+    await redis.del(`post:${postId}`)
     return new Response('Post deleted', { status: 200 })
   } catch (error) {
     if (error instanceof z.ZodError)
