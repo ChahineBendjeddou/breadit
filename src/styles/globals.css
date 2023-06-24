@@ -79,3 +79,23 @@
     font-feature-settings: 'rlig' 1, 'calt' 1;
   }
 }
+
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 10px;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    background: #f7f4ed;
+    background: rgb(203 213 225 / var(--tw-bg-opacity));
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: rgb(51 65 85 / var(--tw-bg-opacity));
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgb(2 6 23 / var(--tw-bg-opacity));
+  }
+}

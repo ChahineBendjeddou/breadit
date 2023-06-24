@@ -21,7 +21,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={cn(
-        'bg-white text-slate-900 antialiased light',
+        'bg-white text-slate-900 antialiased light scrollbar',
         inter.className
       )}
     >
