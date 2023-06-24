@@ -85,7 +85,7 @@ const PostFeed: FC<PostFeedProps> = ({
           </li>
         )
       })}
-      {canFetchNextPage && <FeedSkeleton />}
+      {isFetchingNextPage && <FeedSkeleton />}
       {posts.length === totalPosts && (
         <p className="text-sm text-center text-gray-500">No more posts</p>
       )}
