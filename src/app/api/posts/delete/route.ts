@@ -32,6 +32,7 @@ export async function DELETE(req: Request) {
     const nestedCommentIds = comments
       .flatMap((comment) => comment.Comments)
       .map((comment) => comment.id)
+<<<<<<< HEAD
     await db.comment.deleteMany({
       where: { id: { in: nestedCommentIds } },
     })
@@ -52,6 +53,29 @@ export async function DELETE(req: Request) {
       },
     })
     await redis.del(`post:${postId}`)
+=======
+
+    // Use Promise.all() to delete comment votes and comments in parallel
+    await Promise.all([
+      db.commentVote.deleteMany({
+        where: {
+          commentId: { in: comments.map((comment) => comment.id) },
+        },
+      }),
+      db.comment.deleteMany({
+        where: {
+          id: {
+            in: [...nestedCommentIds, ...comments.map((comment) => comment.id)],
+          },
+        },
+      }),
+      redis.del(`post:${postId}`),
+      db.post.delete({
+        where: { id: postId },
+      }),
+    ])
+
+>>>>>>> 4d6efc10cb0bdb7311c6231bc0106567912f6770
     return new Response('Post deleted', { status: 200 })
   } catch (error) {
     if (error instanceof z.ZodError)
