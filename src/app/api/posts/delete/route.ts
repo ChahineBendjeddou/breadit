@@ -11,45 +11,47 @@ export async function DELETE(req: Request) {
     const url = new URL(req.url)
     const postId = url.searchParams.get('postId')
     if (!postId) return new Response('Invalid query', { status: 400 })
-
-    // Fetch all comments and their nested comments (replies) in a single query
+    const commentsForVote = await db.comment.findMany({
+      where: {
+        postId,
+      },
+    })
+    for (const comment of commentsForVote) {
+      await db.commentVote.deleteMany({
+        where: {
+          commentId: comment.id,
+        },
+      })
+    }
     const comments = await db.comment.findMany({
-      where: { postId },
-      include: { Comments: true },
+      where: { postId: postId },
+      include: { Comments: true }, // Include nested comments (replies)
     })
 
+    // Delete the nested comments (replies) first
     const nestedCommentIds = comments
       .flatMap((comment) => comment.Comments)
       .map((comment) => comment.id)
-
-    // Delete comment votes in a batch operation
-    await db.commentVote.deleteMany({
-      where: {
-        commentId: { in: comments.map((comment) => comment.id) },
-      },
-    })
-
-    // Delete comments and their nested comments in a batch operation
     await db.comment.deleteMany({
+      where: { id: { in: nestedCommentIds } },
+    })
+
+    // Delete the top-level comments associated with the post
+    const commentIds = comments.map((comment) => comment.id)
+    await db.comment.deleteMany({
+      where: { id: { in: commentIds } },
+    })
+    await db.vote.deleteMany({
       where: {
-        id: {
-          in: [...nestedCommentIds, ...comments.map((comment) => comment.id)],
-        },
+        postId,
       },
     })
-
-    // Delete votes associated with the post
-    await db.vote.deleteMany({
-      where: { postId },
-    })
-
-    // Delete the post
     await db.post.delete({
-      where: { id: postId },
+      where: {
+        id: postId,
+      },
     })
-
-    // Delete Redis cache entry
-    redis.del(`post:${postId}`)
+    await redis.del(`post:${postId}`)
     return new Response('Post deleted', { status: 200 })
   } catch (error) {
     if (error instanceof z.ZodError)
