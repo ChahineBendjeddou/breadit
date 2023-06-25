@@ -22,34 +22,26 @@ export async function DELETE(req: Request) {
       .flatMap((comment) => comment.Comments)
       .map((comment) => comment.id)
 
-    // Delete comment votes in a batch operation
-    await db.commentVote.deleteMany({
-      where: {
-        commentId: { in: comments.map((comment) => comment.id) },
-      },
-    })
-
-    // Delete comments and their nested comments in a batch operation
-    await db.comment.deleteMany({
-      where: {
-        id: {
-          in: [...nestedCommentIds, ...comments.map((comment) => comment.id)],
+    // Use Promise.all() to delete comment votes and comments in parallel
+    await Promise.all([
+      db.commentVote.deleteMany({
+        where: {
+          commentId: { in: comments.map((comment) => comment.id) },
         },
-      },
-    })
+      }),
+      db.comment.deleteMany({
+        where: {
+          id: {
+            in: [...nestedCommentIds, ...comments.map((comment) => comment.id)],
+          },
+        },
+      }),
+      redis.del(`post:${postId}`),
+      db.post.delete({
+        where: { id: postId },
+      }),
+    ])
 
-    // Delete votes associated with the post
-    await db.vote.deleteMany({
-      where: { postId },
-    })
-
-    // Delete the post
-    await db.post.delete({
-      where: { id: postId },
-    })
-
-    // Delete Redis cache entry
-    redis.del(`post:${postId}`)
     return new Response('Post deleted', { status: 200 })
   } catch (error) {
     if (error instanceof z.ZodError)
